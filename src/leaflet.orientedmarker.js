@@ -11,6 +11,28 @@
             orientationLineWeight: 5,
             orientationLineOpacity: 0.8
         },
+
+				/**
+				 * Set the angle.
+				 * @param {number} angle - some degree to set the angle
+				 * @returns {void}
+				 */
+        setAngle: function( angle ) {
+					this.options.angle = angle ;
+					this._updateImg();
+				},
+
+				/**
+				 * Add degree to the angle.
+				 * @param {number} angle - some degree to add to the angle
+				 * @returns {number} The new angle
+				 */
+				rotate: function( angle ) {
+					this.options.angle += angle ;
+					this._updateImg();
+					return this.options.angle ;
+				},
+
         isOriented: true,
         _setPos: function (pos) {
             L.Marker.prototype._setPos.call(this, pos);
