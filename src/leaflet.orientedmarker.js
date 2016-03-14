@@ -33,7 +33,6 @@
 					return this.options.angle ;
 				},
 
-        isOriented: true,
         _setPos: function (pos) {
             L.Marker.prototype._setPos.call(this, pos);
             this._initIconStyle = this._icon.style[L.DomUtil.TRANSFORM] + '';
