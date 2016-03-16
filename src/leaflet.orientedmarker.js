@@ -11,13 +11,34 @@
             orientationLineWeight: 5,
             orientationLineOpacity: 0.8
         },
-        isOriented: true,
+
+				/**
+				 * Set the angle.
+				 * @param {number} angle - some degree to set the angle
+				 * @returns {void}
+				 */
+        setAngle: function( angle ) {
+					this.options.angle = angle ;
+					this._updateImg();
+				},
+
+				/**
+				 * Add degree to the angle.
+				 * @param {number} angle - some degree to add to the angle
+				 * @returns {number} The new angle
+				 */
+				rotate: function( angle ) {
+					this.options.angle += angle ;
+					this._updateImg();
+					return this.options.angle ;
+				},
+
         _setPos: function (pos) {
             L.Marker.prototype._setPos.call(this, pos);
             this._initIconStyle = this._icon.style[L.DomUtil.TRANSFORM] + '';
             this._updateImg();
         },
-        _updateImg: function(i, a, s) {
+        _updateImg: function() {
             var a = this.options.icon.options.iconAnchor,
             i, s;
             if (this._icon) {
