@@ -130,6 +130,7 @@
                     that._orientationMouseDown = false;
                     that._map.dragging.enable();
                     that._setAngle();
+                    that.fire('rotateend');
                 }
             }
             return that;
