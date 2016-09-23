@@ -2,7 +2,7 @@
  Leaflet.orientedmarker, Provides dynamic orientation functionality for Leaflet markers.
  https://github.com/gismartwaredev/leaflet.orientedMarker
  (c) 2015, Alexandre DAVID (http://github.com/alexandreDavid), GiSmartware
-*/
+ */
 (function(window, document, undefined) {
     L.OrientedMarker = L.Marker.extend({
         options: {
@@ -122,6 +122,7 @@
                     that._orientationLine.setLatLngs([that._latlng, pointB]);
                     that._orientationCircle.setLatLng(pointB);
                     that._setAngle();
+                    that.fire('rotateend');
                 }
             }
 
@@ -141,8 +142,8 @@
                 this._map.removeLayer(this._orientationCircle);
             }
             var transformation = new L.Transformation(
-                    1, Math.sin(this.options.angle * Math.PI / 180) * 100,
-                    1, Math.cos(this.options.angle * Math.PI / 180) * -100
+                1, Math.sin(this.options.angle * Math.PI / 180) * 100,
+                1, Math.cos(this.options.angle * Math.PI / 180) * -100
                 ),
                 pointB = this._map.layerPointToLatLng(
                     transformation.transform(this._map.latLngToLayerPoint(this._latlng))
@@ -179,7 +180,8 @@
         _setAngle: function() {
             var A = this._orientationLine._parts[0][0],
                 B = this._orientationLine._parts[0][1];
-            this.options.angle = (Math.atan2(0, 1) - Math.atan2((B.y - A.y), (B.x - A.x))) * 180 / Math.PI + 180;
+            this.options.angle = (Math.atan2(0, 1) - Math.atan2((B.x - A.x), (B.y - A.y))) * 180 / Math.PI + 180;
+            this.options.correctedAngle = (Math.atan2(0, 1) - Math.atan2((B.y - A.y), (B.x - A.x))) * 180 / Math.PI;
             this._updateImg();
         },
         _initIconStyle: false,
