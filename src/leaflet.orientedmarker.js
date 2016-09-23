@@ -179,7 +179,7 @@
         _setAngle: function() {
             var A = this._orientationLine._parts[0][0],
                 B = this._orientationLine._parts[0][1];
-            this.options.angle = (Math.atan2(0, 1) - Math.atan2((B.x - A.x), (B.y - A.y))) * 180 / Math.PI + 180;
+            this.options.angle = (Math.atan2(0, 1) - Math.atan2((B.y - A.y), (B.x - A.x))) * 180 / Math.PI + 180;
             this._updateImg();
         },
         _initIconStyle: false,
