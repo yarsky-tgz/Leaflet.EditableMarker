@@ -76,19 +76,31 @@
             }
             return this;
         },
-        activateOrientationEvents: function() {
+        registerOrientationDragHandler: function() {
             var that = this;
-            this.orientationEventsActivated = true;
-            that.on('dragend', function() {
-                console.log("drag start");
+            var smoothUpdates;
+            that.on('dragstart', function() {
                 that.update();
-            });            
+                smoothUpdates = setInterval(function() {
+                    that.updateOrientation();
+                }, 50);
+            });
+            that.on('dragend', function() {
+                clearInterval(smoothUpdates);
+                that.update();
+            });
         },
         activateOrientation: function() {
             var that = this;
-            if(!this.orientationEventsActivated) {
-                this.activateOrientationEvents();
+            if (!this.orientationActivated) {
+                this.orientationActivated = true;
+                this.registerOrientationDragHandler();
             }
+            this.updateOrientation();
+            return that;
+        },
+        updateOrientation: function() {
+            var that = this;
             that._setOrientationDirectionLine();
             that._orientationMouseDown = false;
             that._orientationLine.addTo(that._map);
@@ -141,7 +153,6 @@
                     that.fire('rotateend');
                 }
             }
-            return that;
         },
         _setOrientationDirectionLine: function() {
             if (this._orientationLine) {
@@ -149,8 +160,8 @@
                 this._map.removeLayer(this._orientationCircle);
             }
             var transformation = new L.Transformation(
-                1, Math.sin(this.options.angle * Math.PI / 180) * 100,
-                1, Math.cos(this.options.angle * Math.PI / 180) * -100
+                    1, Math.sin(this.options.angle * Math.PI / 180) * 100,
+                    1, Math.cos(this.options.angle * Math.PI / 180) * -100
                 ),
                 pointB = this._map.layerPointToLatLng(
                     transformation.transform(this._map.latLngToLayerPoint(this._latlng))
