@@ -43,15 +43,15 @@
             if (this._icon) {
                 i = this._icon;
                 s = this.options.icon.options.iconSize;
-                this._orienteIcon(i, a, s)
+                this.rotateIcon(i, a, s)
             }
             if (this._shadow) {
                 s = this.options.icon.options.shadowSize;
                 i = this._shadow;
-                this._orienteIcon(i, a, s)
+                this.rotateIcon(i, a, s)
             }
         },
-        _orienteIcon: function(i, a, s) {
+        rotateIcon: function(i, a, s) {
             if (!s) {
                 i.style[L.DomUtil.TRANSFORM] = this._initIconStyle + ' rotate(' + this.options.angle + 'deg)';
                 return;
@@ -78,15 +78,10 @@
         },
         registerOrientationDragHandler: function() {
             var that = this;
-            var smoothUpdates;
-            that.on('dragstart', function() {
+            that.on('drag', function() {
                 that.update();
-                smoothUpdates = setInterval(function() {
-                    that.updateOrientation();
-                }, 50);
             });
             that.on('dragend', function() {
-                clearInterval(smoothUpdates);
                 that.update();
             });
         },
