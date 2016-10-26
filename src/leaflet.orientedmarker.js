@@ -11,7 +11,6 @@
             orientationLineWeight: 5,
             orientationLineOpacity: 0.8
         },
-
         /**
          * Set the angle.
          * @param {number} angle - some degree to set the angle
@@ -77,11 +76,19 @@
             }
             return this;
         },
+        activateOrientationEvents: function() {
+            var that = this;
+            this.orientationEventsActivated = true;
+            that.on('dragend', function() {
+                console.log("drag start");
+                that.update();
+            });            
+        },
         activateOrientation: function() {
             var that = this;
-            that.on('dragend', function() {
-                that.update();
-            });
+            if(!this.orientationEventsActivated) {
+                this.activateOrientationEvents();
+            }
             that._setOrientationDirectionLine();
             that._orientationMouseDown = false;
             that._orientationLine.addTo(that._map);

@@ -22,7 +22,9 @@
 			attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
 		}).addTo(map);
 
-		L.orientedMarker([45.801104, 4.775398]).addTo(map).activateOrientation();
+		L.orientedMarker([45.801104, 4.775398], {
+			draggable: true
+		}).addTo(map).activateOrientation();
 
 	</script>
 </body>
