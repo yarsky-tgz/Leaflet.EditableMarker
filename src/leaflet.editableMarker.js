@@ -38,30 +38,30 @@
             this._updateImg();
         },
         _updateImg: function() {
-            var a = this.options.icon.options.iconAnchor,
-                i, s;
+            var anchor = this.options.icon.options.iconAnchor,
+                icon, size;
             if (this._icon) {
-                i = this._icon;
-                s = this.options.icon.options.iconSize;
-                this.rotateIcon(i, a, s)
+                icon = this._icon;
+                size = this.options.icon.options.iconSize;
+                this.rotateIcon(icon, anchor, size)
             }
             if (this._shadow) {
-                s = this.options.icon.options.shadowSize;
-                i = this._shadow;
-                this.rotateIcon(i, a, s)
+                size = this.options.icon.options.shadowSize;
+                icon = this._shadow;
+                this.rotateIcon(icon, anchor, size)
             }
         },
-        rotateIcon: function(i, a, s) {
-            if (!s) {
-                i.style[L.DomUtil.TRANSFORM] = this._initIconStyle + ' rotate(' + this.options.angle + 'deg)';
+        rotateIcon: function(icon, anchor, size) {
+            if (!size) {
+                icon.style[L.DomUtil.TRANSFORM] = this._initIconStyle + ' rotate(' + this.options.angle + 'deg)';
                 return;
             }
-            a = L.point(s).divideBy(2)._subtract(L.point(a));
+            anchor = L.point(size).divideBy(2)._subtract(L.point(anchor));
             var transform = '';
-            transform += ' translate(' + -a.x + 'px, ' + -a.y + 'px)';
+            transform += ' translate(' + -anchor.x + 'px, ' + -anchor.y + 'px)';
             transform += ' rotate(' + this.options.angle + 'deg)';
-            transform += ' translate(' + a.x + 'px, ' + a.y + 'px)';
-            i.style[L.DomUtil.TRANSFORM] = this._initIconStyle + ' ' + transform;
+            transform += ' translate(' + anchor.x + 'px, ' + anchor.y + 'px)';
+            icon.style[L.DomUtil.TRANSFORM] = this._initIconStyle + ' ' + transform;
         },
         onRemove: function(map) {
             this._orientationLine.onRemove(this._map);

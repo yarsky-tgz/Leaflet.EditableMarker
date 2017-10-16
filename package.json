@@ -1,19 +1,19 @@
 {
-  "name": "leaflet.orientedMarker",
-  "version": "1.1.0",
-  "description": "==================",
-  "main": "src/leaflet.orientedmarker.js",
+  "name": "leaflet.editableMarker",
+  "version": "0.0.1",
+  "description": "Add editing ability to Leaflet Marker",
+  "main": "src/leaflet.editableMarker.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aozisik/leaflet.orientedMarker.git"
+    "url": "git+https://github.com/yarsky-tgz/leaflet.editableMarker.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Yaroslav Dobzhanskij",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/aozisik/leaflet.orientedMarker/issues"
+    "url": "https://github.com/yarsky-tgz/leaflet.editableMarker/issues"
   },
-  "homepage": "https://github.com/aozisik/leaflet.orientedMarker#readme",
+  "homepage": "https://github.com/yarsky-tgz/leaflet.editableMarker#readme",
   "dependencies": {
     "leaflet": "^0.7.7"
   }
