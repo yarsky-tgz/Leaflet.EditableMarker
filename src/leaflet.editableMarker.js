@@ -4,12 +4,12 @@
  (c) 2015, Alexandre DAVID (http://github.com/alexandreDavid), GiSmartware
  */
 (function(window, document, undefined) {
-    L.OrientedMarker = L.Marker.extend({
+    L.EditableMarker = L.Marker.extend({
         options: {
             angle: 0,
-            orientationLineColor: 'red',
-            orientationLineWeight: 5,
-            orientationLineOpacity: 0.8
+            orientationLineColor: 'blue',
+            orientationLineWeight: 2,
+            orientationLineOpacity: 0.6
         },
         /**
          * Set the angle.
@@ -38,16 +38,11 @@
             this._updateImg();
         },
         _updateImg: function() {
-            var anchor = this.options.icon.options.iconAnchor,
+            var anchor = this.options.anchor,
                 icon, size;
             if (this._icon) {
                 icon = this._icon;
-                size = this.options.icon.options.iconSize;
-                this.rotateIcon(icon, anchor, size)
-            }
-            if (this._shadow) {
-                size = this.options.icon.options.shadowSize;
-                icon = this._shadow;
+                size = this.options.size;
                 this.rotateIcon(icon, anchor, size)
             }
         },
@@ -56,11 +51,16 @@
                 icon.style[L.DomUtil.TRANSFORM] = this._initIconStyle + ' rotate(' + this.options.angle + 'deg)';
                 return;
             }
-            anchor = L.point(size).divideBy(2)._subtract(L.point(anchor));
+            //var anchorSubtract = L.point(size)._subtract(L.point(anchor));
             var transform = '';
-            transform += ' translate(' + -anchor.x + 'px, ' + -anchor.y + 'px)';
+            //transform += ' translate(' + -anchorSubtract.x + 'px, ' + -anchorSubtract.y + 'px)';
             transform += ' rotate(' + this.options.angle + 'deg)';
-            transform += ' translate(' + anchor.x + 'px, ' + anchor.y + 'px)';
+            //transform += ' translate(' + anchorSubtract.x + 'px, ' + anchorSubtract.y + 'px)';
+
+            icon.style['width'] = size[0] + 'px';
+            icon.style['height'] = size[1] + 'px';
+            icon.style['marginLeft'] = '-' + anchor[0] + 'px';
+            icon.style['marginTop'] = '-' + anchor[1] + 'px';
             icon.style[L.DomUtil.TRANSFORM] = this._initIconStyle + ' ' + transform;
         },
         onRemove: function(map) {
@@ -86,6 +86,11 @@
             });
         },
         activateOrientation: function() {
+            this.options.size = this.options.size || this.options.icon.options.iconSize.slice();
+            this.options.anchor = this.options.anchor || this.options.icon.options.iconAnchor.slice();
+            var xPercent = parseInt((this.options.anchor[0] / this.options.size[0]) * 100);
+            var yPercent = parseInt((this.options.anchor[1] / this.options.size[1]) * 100);
+            this._icon.style.transformOrigin = xPercent + "% " + yPercent + "%";
             var that = this;
             if (!this.orientationActivated) {
                 this.orientationActivated = true;
@@ -155,8 +160,8 @@
                 this._map.removeLayer(this._orientationCircle);
             }
             var transformation = new L.Transformation(
-                    1, Math.sin(this.options.angle * Math.PI / 180) * 100,
-                    1, Math.cos(this.options.angle * Math.PI / 180) * -100
+                    1, Math.sin(this.options.angle * Math.PI / 180) * (this.options.size[1]),
+                    1, Math.cos(this.options.angle * Math.PI / 180) * (0 - this.options.size[1])
                 ),
                 pointB = this._map.layerPointToLatLng(
                     transformation.transform(this._map.latLngToLayerPoint(this._latlng))
@@ -193,15 +198,27 @@
         _setAngle: function() {
             var A = this._orientationLine._parts[0][0],
                 B = this._orientationLine._parts[0][1];
+            var distance = A.distanceTo(B);
+            var diff = distance / this.options.size[1];
+            var sizeAnchorDiff = [
+                this.options.size[0] / this.options.anchor[0],
+                this.options.size[1] / this.options.anchor[1]
+            ];
             this.options.angle = (Math.atan2(0, 1) - Math.atan2((B.x - A.x), (B.y - A.y))) * 180 / Math.PI + 180;
-            this.options.correctedAngle = (Math.atan2(0, 1) - Math.atan2((B.y - A.y), (B.x - A.x))) * 180 / Math.PI;
+            this.options.size = [
+                this.options.size[0] * diff,
+                distance
+            ];
+            this.options.anchor[0] = this.options.anchor[0] * diff;
+            this.options.anchor[1] = this.options.anchor[1] * diff;
+            //this.options.correctedAngle = (Math.atan2(0, 1) - Math.atan2((B.y - A.y), (B.x - A.x))) * 180 / Math.PI;
             this._updateImg();
         },
         _initIconStyle: false,
         _orientationLine: false,
         _orientationCircle: false
     });
-    L.orientedMarker = function(pos, options) {
-        return new L.OrientedMarker(pos, options);
+    L.editableMarker = function(pos, options) {
+        return new L.EditableMarker(pos, options);
     };
 }(window, document));

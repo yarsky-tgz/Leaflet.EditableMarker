@@ -6,23 +6,29 @@
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+	<link rel="stylesheet" href="../node_modules/leaflet/dist/leaflet.css" />
 </head>
 <body>
 	<div id="map" style="width: 600px; height: 400px"></div>
 
-	<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-	<script src="../src/leaflet.orientedmarker.js"></script>
+	<script src="../node_modules/leaflet/dist/leaflet.js"></script>
+	<script src="../src/leaflet.editableMarker.js"></script>
 	<script>
 
 		var map = L.map('map').setView([45.801104, 4.775398], 13);
+		var icon = L.icon({
+			iconUrl: 'bird.svg',
+			iconSize: [35, 53],
+			iconAnchor: [29, 51]
+		});
 
 		L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			maxZoom: 18,
-			attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+			attribution: 'Map data ï¿½ <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
 		}).addTo(map);
 
-		L.orientedMarker([45.801104, 4.775398], {
+		L.editableMarker([45.801104, 4.775398], {
+		    icon: icon,
 			draggable: true
 		}).addTo(map).activateOrientation();
 
