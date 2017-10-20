@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="../node_modules/leaflet/dist/leaflet.css" />
 </head>
 <body>
-	<div id="map" style="width: 600px; height: 400px"></div>
+	<div id="map" style="width: 900px; height: 500px"></div>
 
 	<script src="../node_modules/leaflet/dist/leaflet.js"></script>
 	<script src="../src/leaflet.editableMarker.js"></script>
@@ -30,7 +30,8 @@
 		L.editableMarker([45.801104, 4.775398], {
 		    icon: icon,
 			draggable: true,
-        "anchor":[34.77865727396606,61.16246624042307],"size":[41.97424153754524,63.56099432828282],"angle":64.14554196042164
+        	"angle":64.14554196042164,
+			percent: 150
 		}).addTo(map).activateOrientation();
 
 	</script>

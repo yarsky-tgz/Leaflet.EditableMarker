@@ -22,6 +22,16 @@
         },
 
         /**
+         * Set the size percents
+         * @param {number} percent
+         * @returns {void}
+         */
+        setPercent: function (percent) {
+            this.options.percent = percent;
+            this._updateImg();
+        },
+
+        /**
          * Add degree to the angle.
          * @param {number} angle - some degree to add to the angle
          * @returns {number} The new angle
@@ -38,19 +48,9 @@
             this._updateImg();
         },
         _updateImg: function() {
-            var anchor = this.options.anchor,
-                icon, size;
-            if (this._icon) {
-                icon = this._icon;
-                size = this.options.size;
-                this.rotateIcon(icon, anchor, size)
-            }
-        },
-        rotateIcon: function(icon, anchor, size) {
-            if (!size) {
-                icon.style[L.DomUtil.TRANSFORM] = this._initIconStyle + ' rotate(' + this.options.angle + 'deg)';
-                return;
-            }
+            var anchor = this.getAnchor(),
+                icon = this._icon,
+                size = this.getSize();
             var transform = '';
             transform += ' rotate(' + this.options.angle + 'deg)';
             icon.style['width'] = size[0] + 'px';
@@ -58,6 +58,22 @@
             icon.style['marginLeft'] = '-' + anchor[0] + 'px';
             icon.style['marginTop'] = '-' + anchor[1] + 'px';
             icon.style[L.DomUtil.TRANSFORM] = this._initIconStyle + ' ' + transform;
+        },
+        getSize: function () {
+            var mul = this.options.percent / 100;
+            var iconOptions = this.options.icon.options;
+            return [
+                iconOptions.iconSize[0] * mul,
+                iconOptions.iconSize[1] * mul
+            ];
+        },
+        getAnchor: function () {
+            var mul = this.options.percent / 100;
+            var iconOptions = this.options.icon.options;
+            return [
+                iconOptions.iconAnchor[0] * mul,
+                iconOptions.iconAnchor[1] * mul
+            ];
         },
         onRemove: function(map) {
             this._orientationLine.onRemove(this._map);
@@ -82,10 +98,10 @@
             });
         },
         activateOrientation: function() {
-            this.options.size = this.options.size || this.options.icon.options.iconSize.slice();
-            this.options.anchor = this.options.anchor || this.options.icon.options.iconAnchor.slice();
-            var xPercent = parseInt((this.options.anchor[0] / this.options.size[0]) * 100);
-            var yPercent = parseInt((this.options.anchor[1] / this.options.size[1]) * 100);
+            this.options.percent = this.options.percent || 100;
+            var iconOptions = this.options.icon.options;
+            var xPercent = ((iconOptions.iconAnchor[0] / iconOptions.iconSize[0]) * 100);
+            var yPercent = ((iconOptions.iconAnchor[1] / iconOptions.iconSize[1]) * 100);
             this._icon.style.transformOrigin = xPercent + "% " + yPercent + "%";
             var that = this;
             if (!this.orientationActivated) {
@@ -124,7 +140,7 @@
                 if (that._orientationMouseDown) {
                     var touches = e.changedTouches,
                         lastTouch = touches[touches.length - 1];
-                    newLatLng = that._map.layerPointToLatLng(
+                    var newLatLng = that._map.layerPointToLatLng(
                         that._map.mouseEventToLayerPoint({ clientX: lastTouch.pageX, clientY: lastTouch.pageY })
                     );
                     moveOrientation({ latlng: newLatLng });
@@ -155,9 +171,10 @@
                 this._map.removeLayer(this._orientationLine);
                 this._map.removeLayer(this._orientationCircle);
             }
+            var size = this.getSize();
             var transformation = new L.Transformation(
-                    1, Math.sin(this.options.angle * Math.PI / 180) * (this.options.size[1]),
-                    1, Math.cos(this.options.angle * Math.PI / 180) * (0 - this.options.size[1])
+                    1, Math.sin(this.options.angle * Math.PI / 180) * (size[1]),
+                    1, Math.cos(this.options.angle * Math.PI / 180) * (0 - size[1])
                 ),
                 pointB = this._map.layerPointToLatLng(
                     transformation.transform(this._map.latLngToLayerPoint(this._latlng))
@@ -179,7 +196,7 @@
         _orientationMouseDown: false,
         _savedDragging: false,
         _savedMouseUp: false,
-        validateOrientation: function(callback) {
+        validateOrientation: function() {
             if (!this._orientationLine) {
                 return this;
             }
@@ -195,18 +212,8 @@
             var A = this._orientationLine._parts[0][0],
                 B = this._orientationLine._parts[0][1];
             var distance = A.distanceTo(B);
-            var diff = distance / this.options.size[1];
-            var sizeAnchorDiff = [
-                this.options.size[0] / this.options.anchor[0],
-                this.options.size[1] / this.options.anchor[1]
-            ];
+            this.options.percent = (distance / this.options.icon.options.iconSize[1]) * 100;
             this.options.angle = (Math.atan2(0, 1) - Math.atan2((B.x - A.x), (B.y - A.y))) * 180 / Math.PI + 180;
-            this.options.size = [
-                this.options.size[0] * diff,
-                distance
-            ];
-            this.options.anchor[0] = this.options.anchor[0] * diff;
-            this.options.anchor[1] = this.options.anchor[1] * diff;
             this._updateImg();
         },
         _initIconStyle: false,

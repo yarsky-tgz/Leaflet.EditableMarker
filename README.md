@@ -1,18 +1,18 @@
-# leaflet.orientedMarker
+# leaflet.editableMarker
 ==================
 
-Leaflet OrientedMarker is a [Leaflet](http://leafletjs.com/) plugin which allows to manage oriented Markers dynamically.
+Leaflet EditableMarker is a [Leaflet](http://leafletjs.com/) plugin which allows to change size and angle of Markers interactively.
 
 Demo
 ----
 
-Check out the [demo](http://gismartwaredev.github.io/leaflet.orientedMarker/)
+coming soon
 
 Usage
 -----
 
-  * Download the `Leaflet.orientedMarker.js`
+  * Download the `Leaflet.editableMarker.js`
   * Include the file after you included `leaflet.js` 
-  * Initialize the orientedMarkers with `L.orientedMarker().addTo(map)` **after** you initialized your `map`
+  * Initialize the orientedMarkers with `L.editableMarker().addTo(map)` **after** you initialized your `map`
   * To modify orientation, call `activateOrientation()` on marker object
   * To finish, call `validateOrientation()` on marker objet

@@ -1,7 +1,7 @@
 {
-  "name": "leaflet.editableMarker",
-  "version": "0.0.1",
-  "description": "Add editing ability to Leaflet Marker",
+  "name": "leaflet-editable-marker",
+  "version": "0.1.0",
+  "description": "Interactive editing of marker",
   "main": "src/leaflet.editableMarker.js",
   "repository": {
     "type": "git",
