@@ -51,12 +51,8 @@
                 icon.style[L.DomUtil.TRANSFORM] = this._initIconStyle + ' rotate(' + this.options.angle + 'deg)';
                 return;
             }
-            //var anchorSubtract = L.point(size)._subtract(L.point(anchor));
             var transform = '';
-            //transform += ' translate(' + -anchorSubtract.x + 'px, ' + -anchorSubtract.y + 'px)';
             transform += ' rotate(' + this.options.angle + 'deg)';
-            //transform += ' translate(' + anchorSubtract.x + 'px, ' + anchorSubtract.y + 'px)';
-
             icon.style['width'] = size[0] + 'px';
             icon.style['height'] = size[1] + 'px';
             icon.style['marginLeft'] = '-' + anchor[0] + 'px';
@@ -211,7 +207,6 @@
             ];
             this.options.anchor[0] = this.options.anchor[0] * diff;
             this.options.anchor[1] = this.options.anchor[1] * diff;
-            //this.options.correctedAngle = (Math.atan2(0, 1) - Math.atan2((B.y - A.y), (B.x - A.x))) * 180 / Math.PI;
             this._updateImg();
         },
         _initIconStyle: false,
