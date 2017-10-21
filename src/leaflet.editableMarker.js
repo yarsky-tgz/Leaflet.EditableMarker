@@ -109,7 +109,6 @@
                 iconUrl: rulerUri,
                 iconSize: this.options.rulerSize
             });
-            this.activateTransformation();
         },
         onRemove: function(map) {
             this._transformationRuler.onRemove(this._map);
