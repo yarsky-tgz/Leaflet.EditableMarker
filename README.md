@@ -2,6 +2,7 @@
 ==================
 
 Leaflet EditableMarker is a [Leaflet](http://leafletjs.com/) plugin which allows to change size and angle of Markers interactively.
+Forked from great plugin [Leaflet.orientedmarker](https://github.com/gismartwaredev/leaflet.orientedMarker) by [Alexandre DAVID](http://github.com/alexandreDavid)
 
 Demo
 ----

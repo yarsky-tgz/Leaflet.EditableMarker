@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Leaflet Oriented Point Simple Example</title>
+	<title>Leaflet.editableMarker simple example</title>
 	<meta charset="utf-8" />
-
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-	<link rel="stylesheet" href="../node_modules/leaflet/dist/leaflet.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" />
 </head>
 <body>
-	<div id="map" style="width: 900px; height: 500px"></div>
-
-	<script src="../node_modules/leaflet/dist/leaflet.js"></script>
+	<div id="map" style="width: 100vw; height: 100vh"></div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js"></script>
 	<script src="../src/leaflet.editableMarker.js"></script>
 	<script>
 
@@ -32,7 +29,7 @@
 			draggable: true,
         	"angle":64.14554196042164,
 			percent: 150
-		}).addTo(map).activateOrientation();
+		}).addTo(map);
 
 	</script>
 </body>
