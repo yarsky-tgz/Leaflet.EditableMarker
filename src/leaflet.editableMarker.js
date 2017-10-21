@@ -18,7 +18,7 @@
             rulerColor: '#4286f4',
             rulerBackground: '#dadada',
             rulerOpacity: 0.5,
-            rulerBorderWidth: 2,
+            rulerBorderWidth: 2
         },
         /**
          * Set the angle.
@@ -27,7 +27,7 @@
          */
         setAngle: function(angle) {
             this.options.angle = angle;
-            this._updateImg();
+            window.requestAnimationFrame(this._updateImg.bind(this));
         },
 
         /**
@@ -37,7 +37,7 @@
          */
         setPercent: function (percent) {
             this.options.percent = percent;
-            this._updateImg();
+            window.requestAnimationFrame(this._updateImg.bind(this));
         },
 
         /**
@@ -47,14 +47,14 @@
          */
         rotate: function(angle) {
             this.options.angle += angle;
-            this._updateImg();
+            window.requestAnimationFrame(this._updateImg.bind(this));
             return this.options.angle;
         },
 
         _setPos: function(pos) {
             L.Marker.prototype._setPos.call(this, pos);
             this._initIconStyle = this._icon.style[L.DomUtil.TRANSFORM] + '';
-            this._updateImg();
+            window.requestAnimationFrame(this._updateImg.bind(this));
         },
         _updateImg: function() {
             var anchor = this.getAnchor(),
@@ -78,6 +78,11 @@
         },
         _initRulerElement: function () {
             this._rulerIconElement = this._transformationRuler.getIcon();
+            window.requestAnimationFrame(this._renderRulerInit.bind(this));
+            this._transformationRuler.setZIndexOffset(RULER_ZINDEX_OFFSET);
+            window.requestAnimationFrame(this._updateRuler.bind(this));
+        },
+        _renderRulerInit: function () {
             this._rulerIconElement.style.borderRadius = '50%';
             this._rulerIconElement.style.backgroundColor = this.options.rulerBackground;
             this._rulerIconElement.style.transformOrigin = '50% 50%';
@@ -85,8 +90,6 @@
             this._rulerIconElement.style.borderColor = this.options.rulerColor;
             this._rulerIconElement.style.borderStyle = 'solid';
             this._rulerIconElement.style.opacity = this.options.rulerOpacity;
-            this._transformationRuler.setZIndexOffset(RULER_ZINDEX_OFFSET);
-            this._updateRuler();
         },
         getSize: function () {
             var mul = this.options.percent / 100;
@@ -225,7 +228,7 @@
             var distance = A.distanceTo(B);
             this.options.percent = (distance / this.options.icon.options.iconSize[1]) * 100;
             this.options.angle = (Math.atan2(0, 1) - Math.atan2((B.x - A.x), (B.y - A.y))) * 180 / Math.PI + 180;
-            this._updateImg();
+            window.requestAnimationFrame(this._updateImg.bind(this));
         },
         _transformationMouseDown: false,
         _savedDragging: false,
