@@ -1,11 +1,14 @@
 {
   "name": "leaflet-editable-marker",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Interactive editing of marker",
   "main": "src/leaflet.editableMarker.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yarsky-tgz/leaflet.editableMarker.git"
+  },
+  "scripts": {
+    "build": "uglifyjs src/leaflet.editableMarker.js -o dist/leaflet.editableMarker.min.js"
   },
   "keywords": [],
   "author": "Yaroslav Dobzhanskij",
@@ -16,5 +19,8 @@
   "homepage": "https://github.com/yarsky-tgz/leaflet.editableMarker#readme",
   "dependencies": {
     "leaflet": "^0.7.7"
+  },
+  "devDependencies": {
+    "uglify-js": "^3.1.4"
   }
 }
