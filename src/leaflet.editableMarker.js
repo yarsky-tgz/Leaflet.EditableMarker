@@ -54,7 +54,7 @@
         _setPos: function(pos) {
             L.Marker.prototype._setPos.call(this, pos);
             this._initIconStyle = this._icon.style[L.DomUtil.TRANSFORM] + '';
-            window.requestAnimationFrame(this._updateImg.bind(this));
+            this._updateImg();
         },
         _updateImg: function() {
             var anchor = this.getAnchor(),
@@ -78,7 +78,7 @@
         },
         _initRulerElement: function () {
             this._rulerIconElement = this._transformationRuler.getIcon();
-            window.requestAnimationFrame(this._renderRulerInit.bind(this));
+            this._renderRulerInit();
             this._transformationRuler.setZIndexOffset(RULER_ZINDEX_OFFSET);
             window.requestAnimationFrame(this._updateRuler.bind(this));
         },
